@@ -1,0 +1,8 @@
+.venv/
+myenv/
+__pycache__/
+*.pyc
+*.pkl
+.env
+data/raw/*
+models/*
