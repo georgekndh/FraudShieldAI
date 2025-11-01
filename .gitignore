@@ -1,22 +1,15 @@
-# Python
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-.env
+﻿# env
 .venv/
-venv/
-*.env
-*.ipynb_checkpoints
+.env
+*.ipynb_checkpoints/
 
-# Models & data
-models/*.pkl
-models/predictions_log.csv
-data/raw/
-data/processed/
+# data & artifacts
+creditcard.csv
+data/
+models/
+mlruns/
 *.parquet
+*.pkl
 *.csv
-
-# IDE
-.vscode/
-.idea/
+*.png
+*.html
