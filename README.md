@@ -1,272 +1,277 @@
-🛡️ FraudShield AI
+# 🛡️ FraudShield AI
 
-Real-time credit card fraud detection system powered by LightGBM, FastAPI, and built-in explainability.
+### Real-Time Credit Card Fraud Detection  
+Built with **LightGBM · FastAPI · Scikit-Learn · SHAP**
 
-FraudShield AI is a production-shaped fraud detection service that supports:
+---
 
-End-to-end model training
+FraudShield AI is a production-structured fraud detection service that supports:
 
-Automatic threshold optimization
+- End-to-end model training  
+- Automatic F1-optimized threshold selection  
+- Real-time API inference  
+- Feature importance inspection  
+- Fully reproducible **Demo Mode**  
+- Optional Streamlit dashboard with explainability  
 
-Real-time API scoring
+Designed for **speed, transparency, and clean deployment.**
 
-Feature importance inspection
+---
 
-Fully reproducible Demo Mode
+# 🚀 Core Capabilities
 
-Optional interactive Streamlit dashboard
+### 🧠 LightGBM Fraud Model
+- Gradient boosting classifier
+- Handles imbalanced fraud data
+- Tunable hyperparameters via YAML config
 
-Designed for speed, transparency, and clean deployment.
+### 🎯 Automatic Threshold Optimization
+During training:
+- Multiple probability thresholds are evaluated
+- Best threshold selected via **F1 score**
+- Threshold stored inside the model bundle
 
-⚙️ Core Capabilities
+### ⚡ Real-Time API Scoring
+- FastAPI backend
+- Single & batch transaction scoring
+- Live fraud probability + binary flag
 
-🧠 LightGBM Fraud Model
+### 📊 Feature Importance Endpoint
+- Extracts LightGBM feature importances
+- Exposed via `/model-info`
+- Sorted top-K features returned
 
-🎯 Automatic F1 Threshold Optimization
+### 🔁 Hot Model Reload
+- Reload model without restarting server
+- Production-friendly workflow
 
-🚀 FastAPI Real-Time Inference
+### 🧪 Demo Mode (Reproducible)
+- Generates synthetic Kaggle-style data
+- Trains demo model automatically
+- Requires **no private artifacts**
 
-📊 Feature Importance Endpoint
+---
 
-🔁 Hot Model Reloading
+# 🧠 Tech Stack
 
-🧪 Self-Bootstrapping Demo Mode
+| Layer | Technology |
+|--------|------------|
+| Model | LightGBM |
+| API | FastAPI |
+| Dashboard | Streamlit |
+| Preprocessing | scikit-learn |
+| Data | pandas |
+| Config | YAML |
+| Logging | Python logging |
 
-📜 Structured Logging & Prediction Audit Log
+---
 
-📈 Optional SHAP & Streamlit Visualization
+# 🏗️ Project Structure
 
-🧠 Tech Stack
-Component	Technology
-Model	LightGBM
-API	FastAPI
-Dashboard	Streamlit
-Preprocessing	scikit-learn, pandas
-Explainability	SHAP
-Config	YAML
-Logging	Python logging
-🏗️ Project Structure
+```
 FraudShieldAI/
 │
-├── api/                     # FastAPI backend
-│   └── app.py
+├── api/
+│   └── app.py                # FastAPI inference service
 │
-├── src/                     # Core ML logic
-│   ├── data.py
-│   ├── features.py
-│   └── train.py
+├── src/
+│   ├── data.py               # Data loading utilities
+│   ├── features.py           # Preprocessing builder
+│   └── train.py              # Training + threshold tuning
 │
 ├── scripts/
-│   └── make_demo_data.py    # Synthetic demo data generator
+│   └── make_demo_data.py     # Synthetic dataset generator
 │
 ├── config/
 │   ├── training.yaml
 │   └── training_demo.yaml
 │
-├── data/
-│   └── demo/                # Auto-generated demo dataset
+├── data/demo/                # Auto-generated demo dataset
+├── models/demo/              # Demo model artifact
 │
-├── models/
-│   └── demo/                # Demo model artifact
-│
-├── app_streamlit.py         # Optional dashboard
+├── app_streamlit.py          # Optional dashboard
 ├── requirements.txt
-└── .gitignore
-🧩 Installation
+└── README.md
+```
+
+---
+
+# 🧩 Installation
+
+```
 git clone https://github.com/georgekndh/FraudShieldAI.git
 cd FraudShieldAI
 
 python -m venv .venv
-.\.venv\Scripts\activate     # Windows
-# source .venv/bin/activate  # macOS/Linux
+.\.venv\Scripts\activate      # Windows
+# source .venv/bin/activate   # macOS/Linux
 
 pip install -r requirements.txt
-🧪 Demo Mode (Zero Setup Required)
+```
 
-Demo mode allows the repository to run without private datasets or pre-trained models.
+---
 
-It will automatically:
+# 🧪 Demo Mode (Zero Setup Required)
 
-Generate synthetic Kaggle-style fraud data
+This mode runs the full system without any private datasets.
 
-Train a LightGBM model
+## 1️⃣ Generate Demo Dataset
 
-Save a demo model bundle
-
-Launch the API with that model
-
-Step 1 – Generate Demo Data
+```
 python -m scripts.make_demo_data
-Step 2 – Train Demo Model
+```
+
+## 2️⃣ Train Demo Model
+
+```
 python -m src.train \
   --config config/training_demo.yaml \
   --input data/demo/transactions_demo.parquet \
   --out models/demo/fraudshield_demo.pkl
-Step 3 – Run API in Demo Mode
+```
 
-Windows:
+## 3️⃣ Start API in Demo Mode
 
+Windows
+```
 set DEMO_MODE=1
 uvicorn api.app:app --reload
+```
 
-macOS/Linux:
-
+macOS/Linux
+```
 export DEMO_MODE=1
 uvicorn api.app:app --reload
+```
 
-Then open:
-
+Open:
+```
 http://localhost:8000/docs
-🧮 Production / Real Mode
+```
 
-If using a real dataset and trained artifact:
+---
 
+# 🏭 Production Mode
+
+Train using real dataset:
+
+```
 python -m src.train \
   --config config/training.yaml \
   --input data/raw/transactions.parquet \
   --out models/fraudshield_lgbm.pkl
+```
 
-Then:
+Run API:
 
-Windows:
-
+```
 set DEMO_MODE=0
 set MODEL_PATH=models/fraudshield_lgbm.pkl
 uvicorn api.app:app --reload
+```
 
-macOS/Linux:
+---
 
-export DEMO_MODE=0
-export MODEL_PATH=models/fraudshield_lgbm.pkl
-uvicorn api.app:app --reload
-🌐 API Endpoints
-Root
+# 🌐 API Endpoints
 
-GET /
+### GET /health
 
-Basic service confirmation.
+Returns model status:
 
-Health Check
-
-GET /health
-
-Returns:
-
+```
 {
   "status": "ok",
   "demo_mode": true,
   "model_loaded": true,
-  "model_path": "...",
   "threshold": 0.34
 }
-Feature Schema
+```
 
-GET /schema
+---
 
-Returns required feature names.
+### POST /score
 
-Score Transaction
-
-POST /score
-
-Example:
-
+```
 {
   "data": {
     "Time": 12345,
     "Amount": 78.50,
     "V1": -1.23,
-    "...": "...",
+    ...
     "V28": -0.42
   }
 }
+```
 
 Response:
 
+```
 {
   "fraud_probability": 0.9123,
   "flag": 1,
   "threshold": 0.34
 }
-Batch Scoring
+```
 
-POST /score-batch
+---
 
-Supports list of transactions.
+### GET /model-info
 
-Feature Importance
+Returns top-K feature importances.
 
-GET /model-info
+---
 
-Returns top features sorted by importance.
+### POST /reload-model
 
-Reload Model
+Reloads model bundle without server restart.
 
-POST /reload-model
+---
 
-Reload model bundle without restarting server.
+# 📊 Streamlit Dashboard (Optional)
 
-📊 Streamlit Dashboard (Optional)
+```
 streamlit run app_streamlit.py
+```
 
 Includes:
+- Probability histograms
+- Threshold slider
+- SHAP explainability plots
+- Transaction inspection
 
-Fraud probability histograms
+---
 
-Threshold slider
+# 🔐 Environment Variables
 
-SHAP explainability (if enabled)
+| Variable | Default | Purpose |
+|-----------|----------|----------|
+| DEMO_MODE | 0 | Enable demo auto-bootstrap |
+| MODEL_PATH | models/fraudshield_lgbm.pkl | Model path |
+| THRESHOLD | 0.55 | Override classification threshold |
+| PRED_LOG | models/predictions_log.csv | Prediction audit log |
 
-Transaction inspection
+---
 
-📈 Threshold Optimization
+# 🎯 Design Philosophy
 
-During training:
+FraudShield AI follows production-oriented ML principles:
 
-Model evaluates multiple probability thresholds
+- Environment-aware configuration  
+- Deterministic artifact loading  
+- Strict input schema validation  
+- Transparent feature importance  
+- No reliance on private committed data  
+- Reproducible demo environment  
 
-Selects threshold maximizing F1 score
+---
 
-Threshold stored inside model bundle
+# 🚀 Status
 
-Used automatically during inference
+FraudShield AI is ready for:
 
-This ensures fraud classification balances precision and recall appropriately for imbalanced datasets.
+- Public GitHub hosting  
+- Technical portfolio evaluation  
+- Demo deployments  
+- Extension into production architecture  
 
-🔐 Environment Variables
-Variable	Default	Purpose
-DEMO_MODE	0	Enable demo auto-bootstrap
-MODEL_PATH	models/fraudshield_lgbm.pkl	Model artifact path
-THRESHOLD	0.55	Override threshold
-PRED_LOG	models/predictions_log.csv	Prediction audit log
-DEMO_MODEL_PATH	models/demo/fraudshield_demo.pkl	Demo model path
-DEMO_DATA_PATH	data/demo/transactions_demo.parquet	Demo dataset path
-🧠 Design Philosophy
-
-FraudShield AI was structured to reflect production ML patterns:
-
-Environment-aware configuration
-
-Deterministic artifact loading
-
-Clear schema validation
-
-Transparent model behavior
-
-No reliance on private committed data
-
-Reproducible demo environment
-
-🚀 Status
-
-FraudShield AI supports:
-
-Local development
-
-Demo deployments
-
-Recruiter-friendly evaluation
-
-Extension into production systems
-
-Dockerization and monitoring integrations can be added as next steps.
+Dockerization and monitoring integrations can be added next.
