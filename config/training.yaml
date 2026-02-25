@@ -1,0 +1,23 @@
+target: Class
+datetime_col: null
+random_split:
+  test_size: 0.2
+  seed: 42
+
+datetime_col: null
+
+split:
+  method: time
+  train_end: "2024-12-31"
+  valid_end: "2025-03-31"
+
+model: lightgbm
+lgbm_params:
+  num_leaves: 64
+  learning_rate: 0.05
+  n_estimators: 600
+  subsample: 0.9
+  colsample_bytree: 0.9
+
+class_weight: balanced
+threshold_opt_metric: f1

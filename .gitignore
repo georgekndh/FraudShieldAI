@@ -1,0 +1,22 @@
+﻿# env
+.venv/
+.env
+*.ipynb_checkpoints/
+
+# data & artifacts
+creditcard.csv
+data/
+models/
+mlruns/
+*.parquet
+*.pkl
+*.csv
+*.png
+*.html
+models/*.pkl
+data/raw/
+data/private/
+
+# allow demo artifactst
+!models/demo/
+!data/demo/
