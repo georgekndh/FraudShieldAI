@@ -1,13 +1,14 @@
 pandas
 numpy
-scikit-learn
-lightgbm
+scikit-learn == 1.8.0
+lightgbm == 4.6.0
 imbalanced-learn
 pyarrow
-fastapi
+fastapi == 0.129.0
 uvicorn
 pydantic
 joblib
 python-dotenv
 seaborn
 matplotlib
+PyYAML
