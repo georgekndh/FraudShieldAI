@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: ["main"]
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Generate demo data (smoke)
+        run: |
+          python -m scripts.make_demo_data
+
+      - name: Train demo model (smoke)
+        run: |
+          python -m src.train --config config/training_demo.yaml --input data/demo/transactions_demo.parquet --out models/demo/fraudshield_demo.pkl
+
+      - name: Docker build (smoke)
+        run: |
+          docker build -t fraudshield-ai:ci .
