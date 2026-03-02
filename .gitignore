@@ -16,6 +16,8 @@ mlruns/
 models/*.pkl
 data/raw/
 data/private/
+__pycache__/
+*.pyc
 
 # allow demo artifactst
 !models/demo/
