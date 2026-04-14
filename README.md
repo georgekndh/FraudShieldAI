@@ -267,7 +267,7 @@ FraudShield AI follows production-oriented ML principles:
 
 🐳 Containerization (Docker Support)
 
-FraudShield AI now includes a Docker configuration to ensure reproducible execution across environments. The Dockerfile packages the full application — including dependencies, model training utilities, and FastAPI server — into a portable container image. By default, the container runs in Demo Mode, automatically generating synthetic data and training a demo model if no artifact exists. This allows the service to start successfully without requiring private datasets or pre-trained models. The addition of Docker ensures environment consistency, simplifies cloud deployment, and eliminates “works on my machine” issues.
+FraudShield AI now includes a Docker configuration to ensure reproducible execution across environments. The Dockerfile packages the full application , including dependencies, model training utilities, and FastAPI server into a portable container image. By default, the container runs in Demo Mode, automatically generating synthetic data and training a demo model if no artifact exists. This allows the service to start successfully without requiring private datasets or pre-trained models. The addition of Docker ensures environment consistency, simplifies cloud deployment, and eliminates “works on my machine” issues.
 # 🚀 Status
 
 FraudShield AI is ready for:
